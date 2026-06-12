@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lenovo FIFA World Cup 26™ Hub</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,-apple-system,BlinkMacSystemFont,sans-serif;height:100vh;overflow:hidden;background:#fff}
+    .chatbot{display:flex;flex-direction:column;height:100vh;width:100%;background:#fff;overflow:hidden}
+    .banner{position:relative;background:#000;flex-shrink:0}
+    .banner img{width:100%;height:60px;object-fit:cover;opacity:.9}
+    @media(min-width:640px){.banner img{height:100px}}
+    .banner-close{position:absolute;top:12px;right:12px;width:28px;height:28px;border:none;border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:18px;line-height:28px;cursor:pointer;z-index:2}
+    .header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #c81f17;background:#E2231A;color:#fff;flex-shrink:0}
+    .header-brand{display:flex;align-items:center;gap:10px}
+    .header-logo{background:#fff;border-radius:4px;height:28px;padding:0 6px;display:flex;align-items:center}
+    .header-logo img{height:18px;width:auto}
+    .header-title{font-size:13px;font-weight:700;line-height:1.2}
+    .header-sub{font-size:10px;opacity:.9;font-weight:500}
+    .messages{flex:1;overflow-y:auto;padding:24px 16px;background:#f9fafb}
+    .msg-wrap{display:flex;flex-direction:column;margin-bottom:20px}
+    .msg-wrap.user{align-items:flex-end}
+    .msg-wrap.bot{align-items:flex-start}
+    .bot-label{display:flex;align-items:center;gap:8px;margin:0 0 6px 4px}
+    .bot-label img{height:14px;background:#fff;padding:2px 4px;border-radius:3px}
+    .bot-label span{font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase}
+    .bubble{max-width:95%;padding:14px 16px;border-radius:16px;font-size:14px;line-height:1.45}
+    .bubble.bot{background:#fff;border:1px solid #f3f4f6;color:#1f2937;border-top-left-radius:4px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+    .bubble.user{background:#000;color:#fff;border-top-right-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+    .bubble a{color:#E2231A;font-weight:600;text-decoration:underline}
+    .bubble strong{font-weight:600}
+    .options{padding:8px 0 16px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+    .opt-btn{padding:10px 18px;border-radius:9999px;border:1px solid #e5e7eb;background:#f9fafb;color:#111827;font-size:14px;text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+    .opt-btn:hover{background:#f3f4f6;border-color:#d1d5db}
+    .nav{display:flex;align-items:center;gap:16px;margin-top:8px;margin-left:4px}
+    .nav button{display:flex;align-items:center;gap:8px;border:none;background:none;color:#4b5563;font-size:14px;font-weight:700;cursor:pointer}
+    .nav button:hover{color:#E2231A}
+    .typing{padding:10px 16px;border-radius:9999px;background:#f3f4f6;border:1px solid #e5e7eb;font-size:10px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+    .footer{text-align:center;padding:16px 0 8px;font-size:10px;color:#9ca3af;font-style:italic}
+  </style>
+</head>
+<body>
+  <div class="chatbot">
+    <div class="banner">
+      <picture>
+        <source media="(min-width:640px)" srcset="https://iili.io/Cq6Uc11.png" />
+        <img src="https://iili.io/Cq6gYuf.png" alt="Stadium banner" referrerpolicy="no-referrer" />
+      </picture>
+      <button class="banner-close" id="closeBtn" aria-label="Close">×</button>
+    </div>
+    <div class="header">
+      <div class="header-brand">
+        <div class="header-logo"><img src="https://media.lenovonews.fiestic.com/2023/05/08023828/Lenovo-Logo-scaled.jpg" alt="Lenovo" /></div>
+        <div>
+          <div class="header-title">FIFA World Cup 26™ Hub</div>
+          <div class="header-sub">Official Technology Partner</div>
+        </div>
+      </div>
+    </div>
+    <div class="messages" id="messages"></div>
+  </div>
+  <script>
+    const flowData = {
+  ee: {
+    title: "EMPLOYEE EXPERIENCE",
+    intro: "Lenovo is supercharging people and teams with more productivity",
+    cards: [
+      {
+        title: "The right line-up changes everything",
+        intro: "At a tournament this complex, the wrong device for the wrong person can create chaos. Lenovo understands every role and then builds backwards for each.",
+        qa: [
+          {
+            q: "How does the ‘right-user, right-device’ approach work at the World Cup?",
+            a: "Every role, from stadium operations to VIP hospitality, is mapped to a device built around how that person moves and communicates. Think of it like matching players to their best positions: when the fit is right, performance follows."
+          },
+          {
+            q: "What happens if a role changes mid-tournament?",
+            a: "Lenovo plans for a tournament as fluid as the World Cup across every role. When roles shift or people relocate, the pre-configured device arrives ready to go without any disruption to the operation."
+          },
+          {
+            q: "Why does this approach matter beyond a sporting event?",
+            a: "Every organisation with distributed staff faces the same challenge as FIFA, just at a different scale. Matching the right device to the right person reduces bottlenecks and boosts productivity, whether you're running a multinational or a regional office."
+          }
+        ]
+      },
+      {
+        title: "No timeouts. No downtime",
+        intro: "At the FIFA World Cup 26™, “we're looking into it” isn't an answer. Lenovo's engineers are embedded inside the operation from the get-go.",
+        qa: [
+          {
+            q: "What does device deployment look like on a massive scale?",
+            a: "Each device is set up, tested, and activated before it’s handed over. Over 150 specialists coordinate simultaneous rollouts across three countries. Nothing ships unless it passes."
+          },
+          {
+            q: "What happens when something goes wrong on match day?",
+            a: "Failed devices are swapped immediately for pre-configured replacements. Lenovo's engineers carry the same badge as FIFA's IT staff: same accountability, same urgency. The fix is in the room, not at the end of an email chain."
+          },
+          {
+            q: "Can such embedded support translate outside a tournament?",
+            a: "Yes, scale is the only change. The same philosophy applies to any high-stakes moment, whether you are 1000-employee strong, or a new-age startup."
+          }
+        ]
+      },
+      {
+        title: "One tournament. One standard",
+        intro: "A broadcast hub in New Jersey, a command centre in Mexico City, a coordination room in Toronto, all in constant communication. That takes more than good Wi-Fi.",
+        qa: [
+          {
+            q: "How does Lenovo keep meetings and decisions running across so many locations?",
+            a: "Every collaboration space is managed through one unified system. If something starts to degrade anywhere, it's flagged centrally before the people in that room even notice."
+          },
+          {
+            q: "Is this achievable for a regular workplace?",
+            a: "Absolutely. If a setup can work across 16 temporary tournament venues and live broadcast set-ups, it can work anywhere people need to communicate clearly, regardless of location."
+          }
+        ]
+      }
+    ],
+    cta: [
+      "[Take the Squad Selector quiz to choose your Lenovo Lineup](https://lenovosquadselector.campaignhubs.com/)",
+      "[Explore how Lenovo Digital Workplace Solutions can help you](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)"
+    ]
+  },
+  ai: {
+    title: "AI",
+    intro: "How AI is deployed at the FIFA World Cup 26™",
+    cards: [
+      {
+        title: "Intelligence under pressure",
+        intro: "At a tournament this intense, AI keeps operations running, spotting problems early and handling routine tasks so people can focus where they’re needed most.",
+        qa: [
+          {
+            q: "How does on-device AI change the day-to-day experience for FIFA staff?",
+            a: "A broadcast analyst on a 12-hour match day can’t afford lag. With AI running on-device instead of the cloud, translation, summaries, and data processing happen in real time, adapting to how each person works."
+          },
+          {
+            q: "What can AI do at a tournament today that wasn't possible before?",
+            a: "Meetings are summarised automatically. Documents are drafted in the background. Translation runs live across languages. Hours of data work shrink to minutes, and risks are flagged before they surface."
+          },
+          {
+            q: "Is on-device AI relevant to professionals who don't work under tournament-level pressure?",
+            a: "It's arguably more relevant to them. For those working on the move, with patchy connectivity or sensitive data, the benefits are immediate. The tournament shows the tech at its most demanding. Everyday work is where the value adds up."
+          }
+        ]
+      },
+      {
+        title: "From reactive to predictive",
+        intro: "FIFA can't discover a problem during a live broadcast. The entire philosophy is anticipation: catch the risk before it becomes a disruption, resolve it before anyone notices.",
+        qa: [
+          {
+            q: "How does Lenovo spot problems before a match window?",
+            a: "Data flows continuously from devices across all 16 locations. The system spots early warning signs, whether battery issues or software conflicts, and alerts the right people before anything breaks."
+          },
+          {
+            q: "When a risk is flagged, who acts on it?",
+            a: "Lenovo and FIFA split responsibilities clearly. Device issues go to Lenovo, infrastructure to FIFA IT, and security to the joint operations team, with no confusion or time lost during the event."
+          },
+          {
+            q: "Is a predictive operations model something any business can adopt?",
+            a: "Yes. For businesses with peak-demand periods, whether retail during a festive season, finance during reporting, or healthcare during a surge, the model is identical. It just runs at your scale."
+          }
+        ]
+      },
+      {
+        title: "AI for every role",
+        intro: "A FIFA executive needs instant access to the right data. A venue analyst needs to process large datasets fast. A field coordinator needs live translation across languages. AI adapts to each role, supporting what every person needs.",
+        qa: [
+          {
+            q: "What performance gains do different FIFA roles see?",
+            a: "Executives get faster access to decision-critical data. Analysts run complex models locally without delays. Creative teams produce content faster with AI tools. Field staff solve problems quicker because language is no longer a barrier."
+          },
+          {
+            q: "How does AI on the device, rather than on the cloud, change what's possible?",
+            a: "When AI runs on-device, work continues even if connectivity drops. Performance stays stable, and local data processing reduces security risks. At a three-country tournament, that’s critical. In most workplaces, it’s just a smarter way to work."
+          },
+          {
+            q: "Are Lenovo's AI offerings available beyond a sporting event?",
+            a: "Yes, and the World Cup proves what the platform can handle under maximum pressure. The right-user, right-device approach applies to any workforce: different roles, different needs, one consistent deployment model."
+          }
+        ]
+      }
+    ],
+    cta: [
+      "[See Lenovo AI in action](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)",
+      "[Explore how Lenovo Digital Workplace Solutions can help you](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)"
+    ]
+  },
+  security: {
+    title: "SECURITY",
+    intro: "What it takes to secure a global event against sophisticated cyber threats",
+    cards: [
+      {
+        title: "Security built in, not bolted on",
+        intro: "Global sporting events attract every kind of threat, from major cyberattacks to a stolen laptop at the stadium. The answer isn’t more layers of protection later but building security right from the start.",
+        qa: [
+          {
+            q: "How are devices secured before deployment?",
+            a: "Security is built into every device before it leaves the warehouse. Each one is configured for its specific role, because a venue manager and a senior executive don’t need the same level of access."
+          },
+          {
+            q: "What protects a device and its data if it's lost or stolen?",
+            a: "The response is remote and immediate: devices can be located, locked, or wiped without being physically recovered. In an operation spanning borders and venues, that isn’t a bonus. It’s the baseline."
+          },
+          {
+            q: "Is the threat landscape businesses face today similar to what FIFA deals with?",
+            a: "Increasingly, yes. 79% of corporate users say attacks have become more sophisticated over the past year. The same threats seen at global events (phishing, identity attacks, device compromise) hit businesses too. Only the scale changes."
+          }
+        ]
+      },
+      {
+        title: "Nothing slips through the defence",
+        intro: "You can't protect what you can't see. Across 16 venues in three countries, Lenovo gives FIFA a real-time picture of every device in the estate. No blind spots, no guesswork.",
+        qa: [
+          {
+            q: "How does Lenovo maintain accountability for 10,000+ devices across so many locations?",
+            a: "One cloud-based system tracks every device: who has it, where it is, and its condition. If something goes wrong, the response is immediate, with no spreadsheets or delay between issue and action."
+          },
+          {
+            q: "What happens if a device goes missing during an event?",
+            a: "Devices can be remotely located, locked, or wiped from a central dashboard if needed. No physical recovery is required. Data stays secure regardless of what happens to the physical device."
+          },
+          {
+            q: "Is this level of visibility achievable outside a major event?",
+            a: "It’s available to any organisation. For businesses managing distributed teams or devices across multiple sites, it means faster response times, less manual overhead, and consistent protection wherever devices are used."
+          }
+        ]
+      },
+      {
+        title: "A shared model for a shared threat landscape",
+        intro: "At the FIFA World Cup 26™, Lenovo and FIFA operate as a single security function, not as a vendor and a client. Shared responsibility, shared visibility, shared accountability.",
+        qa: [
+          {
+            q: "How do you ensure consistent security across a constantly-moving workforce?",
+            a: "The consistency is built into the device, not left to individual behaviour. Wherever it goes, its security settings go too. When devices change hands, the protection stays in place automatically."
+          },
+          {
+            q: "What should organisations take from this model into their own operations?",
+            a: "One, security shouldn’t be an afterthought. Two, visibility across the full device lifecycle is a security function. And three, governance structures must be collaborative. These principles apply to any organisation regardless of size and sector."
+          }
+        ]
+      }
+    ],
+    cta: [
+      "[Explore how Lenovo Digital Workplace Solutions can help you](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)"
+    ]
+  },
+  sustainability: {
+    title: "SUSTAINABILITY",
+    intro: "What happens to 10,000-plus devices after the final whistle?",
+    cards: [
+      {
+        title: "Reducing waste at World Cup scale",
+        intro: "When the lights go out and the venues close, the technology has to go somewhere. At 10,000-plus devices across 16 locations, what happens next is both an environmental question and a business one.",
+        qa: [
+          {
+            q: "What happens to the devices once the tournament ends?",
+            a: "Each returned device is assessed, securely wiped, and checked for health. If it still has value, it’s refurbished and redeployed with a fresh warranty. If not, it’s responsibly recycled. Nothing is wasted, and every tournament feeds the next cycle."
+          },
+          {
+            q: "Is there a financial case for this, beyond the environmental one?",
+            a: "A strong one. Lenovo recovers around 85% of the residual value from FIFA’s devices, returning it as credit toward new purchases. The sustainability program helps fund the next technology cycle, turning procurement into a self-sustaining strategy."
+          },
+          {
+            q: "Can a company implement a circular device model at scale?",
+            a: "The FIFA World Cup 26™ shows it’s possible. The key ingredients are asset tracking from day one, a structured return-and-recovery process, and a partner that can handle refurbishment and recycling at scale. Lenovo provides all three."
+          }
+        ]
+      },
+      {
+        title: "Buying less by managing better",
+        intro: "Sustainability conversations typically start at end-of-life. Lenovo's approach starts earlier, with smarter decisions about which devices to buy, how long to use them, and where to deploy them.",
+        qa: [
+          {
+            q: "How does Lenovo prevent unnecessary hardware procurement at this scale?",
+            a: "AI-powered, persona-based device matching avoids unnecessary upgrades by aligning capability with actual need. That means less wasteful procurement, a leaner device estate, and a lower carbon footprint."
+          },
+          {
+            q: "Is a data-led approach to device refresh practical for businesses on standard upgrade cycles?",
+            a: "It’s more practical than the alternative. With clear visibility into device health and performance, organisations can decide what to replace, reuse, or retire based on data, extending the life of devices that still perform and making procurement smarter over time."
+          }
+        ]
+      },
+      {
+        title: "Playing the long game",
+        intro: "When you track each device through its lifecycle, align procurement to needs, and automate returns and refurbishment, sustainability becomes a natural outcome of running operations well.",
+        qa: [
+          {
+            q: "How are FIFA's sustainability goals and operational excellence goals connected?",
+            a: "They're the same goal. The asset tracking that manages 10,000+ devices across 16 locations is also the infrastructure that makes responsible end-of-life management possible. The persona-based matching prevents over-provisioning."
+          },
+          {
+            q: "How does on-site fulfilment capability reduce the tournament’s carbon footprint?",
+            a: "Devices are configured and deployed within the operational estate, reducing unnecessary cross-border shipping. Combined with a circular approach to end-of-life devices, it creates a far smaller environmental footprint even at tournament scale."
+          },
+          {
+            q: "What does this model look like in practice for an organisation that wants to adopt it?",
+            a: "It starts with visibility. Most organisations don't have an accurate, real-time picture of their device estate, and without that, circular IT stays a concept. Once visibility exists, smarter procurement, longer device lifespans, and responsible end-of-life management become easier to achieve."
+          }
+        ]
+      }
+    ],
+    cta: [
+      "[Explore how Lenovo Digital Workplace Solutions can help you](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)",
+      "[Download Lenovo’s Digital Workplace Solutions eBook](https://www.lenovo.com/us/en/solutions/digital-workplace/fifa/)"
+    ]
+  }
+};
+
+    function renderMarkdown(text) {
+      const escaped = text
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+      return escaped
+        .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        .replace(/\n\n/g,'</p><p>')
+        .replace(/\n/g,'<br>');
+    }
+
+    const state = {
+      step: 'home',
+      topic: null,
+      card: null,
+      messages: [],
+      options: [],
+      typing: false
+    };
+
+    const messagesEl = document.getElementById('messages');
+
+    function scrollBottom() {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function addMessage(sender, text) {
+      state.messages.push({ sender, text });
+    }
+
+    function closeChatbot() {
+      /* Cross-origin: chatbot iframe cannot access parent.document directly */
+      parent.postMessage({ type: "CLOSE_FIFA_CHATBOT" }, "*");
+    }
+
+    document.getElementById('closeBtn').onclick = closeChatbot;
+
+    function render() {
+      let html = '';
+      state.messages.forEach((m, i) => {
+        html += '<div class="msg-wrap ' + m.sender + '">';
+        if (m.sender === 'bot') {
+          html += '<div class="bot-label"><img src="https://media.lenovonews.fiestic.com/2023/05/08023828/Lenovo-Logo-scaled.jpg" alt="Lenovo" /><span>Lenovo</span></div>';
+        }
+        html += '<div class="bubble ' + m.sender + '"><p>' + renderMarkdown(m.text) + '</p></div></div>';
+      });
+
+      if (state.typing) {
+        html += '<div class="msg-wrap bot"><div class="bot-label"><img src="https://media.lenovonews.fiestic.com/2023/05/08023828/Lenovo-Logo-scaled.jpg" alt="Lenovo" /><span>Lenovo</span></div><div class="typing">Lenovo is typing</div></div>';
+      } else if (state.options.length) {
+        html += '<div class="options">';
+        state.options.forEach((opt, idx) => {
+          html += '<button class="opt-btn" data-idx="' + idx + '">' + opt.label.replace(/</g,'&lt;') + '</button>';
+        });
+        if (state.step !== 'home') {
+          html += '<div class="nav"><button type="button" id="homeBtn">Home</button><button type="button" id="backBtn">Back</button></div>';
+        }
+        html += '</div>';
+      }
+
+      html += '<div class="footer">Powered by Lenovo Smarter Technology for All</div>';
+      messagesEl.innerHTML = html;
+
+      messagesEl.querySelectorAll('.opt-btn').forEach(btn => {
+        btn.onclick = () => state.options[+btn.dataset.idx].action();
+      });
+      const homeBtn = document.getElementById('homeBtn');
+      const backBtn = document.getElementById('backBtn');
+      if (homeBtn) homeBtn.onclick = handleHome;
+      if (backBtn) backBtn.onclick = handleBack;
+      scrollBottom();
+    }
+
+    function setOptions(opts) { state.options = opts; render(); }
+    function withTyping(fn, delay) {
+      state.typing = true; state.options = []; render();
+      setTimeout(() => { state.typing = false; fn(); render(); }, delay || 500);
+    }
+
+    function showHome(silent) {
+      state.step = 'home'; state.topic = null; state.card = null;
+      addMessage('bot', silent
+        ? 'Returning to main menu. What would you like to explore?'
+        : "The world's biggest sporting event has one of the most complex IT operations ever. There are more than 10,000 devices deployed across 16 cities, and 3 countries. See how Lenovo, the Official Technology Partner of the FIFA World Cup 26™ is making it work.");
+      setOptions([
+        { label: 'Lenovo is supercharging people and teams with more productivity', action: () => handlePillarSelect('ee', 'Lenovo is supercharging people and teams with more productivity') },
+        { label: 'AI is deployed at the FIFA World Cup 26™', action: () => handlePillarSelect('ai', 'AI is deployed at the FIFA World Cup 26™') },
+        { label: 'An event at a global scale is securing itself', action: () => handlePillarSelect('security', 'An event at a global scale is securing itself') },
+        { label: '10,000-plus devices are managed after the final whistle', action: () => handlePillarSelect('sustainability', '10,000-plus devices are managed after the final whistle') }
+      ]);
+    }
+
+    function handlePillarSelect(topicId, label) {
+      addMessage('user', label); state.options = []; state.step = 'cards'; state.topic = topicId; render();
+      withTyping(() => {
+        const topic = flowData[topicId];
+        addMessage('bot', '**' + topic.title + '**\n\n' + topic.intro + '\n\nWhat would you like to explore?');
+        setOptions(topic.cards.map((card, idx) => ({ label: card.title, action: () => handleCardSelect(topicId, idx) })));
+      }, 400);
+    }
+
+    function handleCardSelect(topicId, cardIndex) {
+      const card = flowData[topicId].cards[cardIndex];
+      addMessage('user', card.title); state.options = []; state.step = 'questions'; state.card = cardIndex; render();
+      withTyping(() => {
+        addMessage('bot', '**' + card.title + '**\n\n' + card.intro);
+        setOptions(card.qa.map((q, qIdx) => ({ label: q.q, action: () => handleQClick(topicId, cardIndex, qIdx) })));
+      }, 600);
+    }
+
+    function handleQClick(topicId, cardIndex, qIndex) {
+      const topic = flowData[topicId];
+      const q = topic.cards[cardIndex].qa[qIndex];
+      addMessage('user', q.q); state.options = []; state.step = 'answer'; render();
+      withTyping(() => {
+        addMessage('bot', q.a);
+        withTyping(() => {
+          addMessage('bot', 'Here are some next steps you can take:\n\n' + topic.cta.map(c => '- ' + c).join('\n'));
+          setOptions([]);
+        }, 700);
+      }, 800);
+    }
+
+    function handleHome() {
+      if (state.step === 'home') return;
+      addMessage('user', 'Home'); state.options = []; render();
+      withTyping(() => showHome(true), 400);
+    }
+
+    function handleBack() {
+      if (state.step === 'home') return;
+      addMessage('user', 'Back'); state.options = []; render();
+      withTyping(() => {
+        if (state.step === 'answer') {
+          state.step = 'questions';
+          const card = flowData[state.topic].cards[state.card];
+          setOptions(card.qa.map((q, qIdx) => ({ label: q.q, action: () => handleQClick(state.topic, state.card, qIdx) })));
+        } else if (state.step === 'questions') {
+          state.step = 'cards';
+          const topic = flowData[state.topic];
+          setOptions(topic.cards.map((card, idx) => ({ label: card.title, action: () => handleCardSelect(state.topic, idx) })));
+        } else if (state.step === 'cards') {
+          showHome(true);
+        }
+      }, 600);
+    }
+
+    showHome(false);
+  </script>
+</body>
+</html>
